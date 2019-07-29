@@ -1,18 +1,17 @@
 var utils = require('../utils.js');
-    
+
 var defaultConfig = {
   birthRange: 2,
   deathRange: 2,
   marriageRange: 2
 };
 
-module.exports = function(config, data){
-
+module.exports = function(config, data) {
   config = utils.defaults(config, defaultConfig);
 
   var fsURL = 'https://www.familysearch.org/search/record/results?count=20';
   var query = '';
-  
+
   // Simple mappings from the person data object to fs params
   // These don't need any special processing
   var simpleMappings = [
@@ -29,42 +28,41 @@ module.exports = function(config, data){
     ['marriage_place', 'marriagePlace']
   ];
   utils.each(simpleMappings, function(map) {
-    if( data[map[1]] ) {
+    if (data[map[1]]) {
       query = utils.addQueryParam(query, map[0], data[map[1]]);
     }
   });
-  
-  // Process the birth year 
-  if(data.birthDate){
+
+  // Process the birth year
+  if (data.birthDate) {
     var birthYear = utils.getYearInt(data.birthDate);
-    if( birthYear ) {
+    if (birthYear) {
       query = utils.addQueryParam(query, 'birth_year_from', birthYear - config.birthRange);
-      query = utils.addQueryParam(query, 'birth_year_to', birthYear + config.birthRange)
+      query = utils.addQueryParam(query, 'birth_year_to', birthYear + config.birthRange);
     }
   }
-  
+
   // Process the death year
-  if(data.deathDate){
+  if (data.deathDate) {
     var deathYear = utils.getYearInt(data.deathDate);
-    if( deathYear ) {
+    if (deathYear) {
       query = utils.addQueryParam(query, 'death_year_from', deathYear - config.deathRange);
       query = utils.addQueryParam(query, 'death_year_to', deathYear + config.deathRange);
     }
   }
 
   // Process the marriage year
-  if(data.marriageDate){
+  if (data.marriageDate) {
     var marriageYear = utils.getYearInt(data.marriageDate);
-    if( marriageYear ) {
+    if (marriageYear) {
       query = utils.addQueryParam(query, 'marriage_year_from', marriageYear - config.marriageRange);
       query = utils.addQueryParam(query, 'marriage_year_to', marriageYear + config.marriageRange);
     }
   }
-  
-  if(config.collectionId){
+
+  if (config.collectionId) {
     query = utils.addQueryParam(query, 'collection_id', config.collectionId);
   }
-  
-  return fsURL + query;
 
+  return fsURL + query;
 };

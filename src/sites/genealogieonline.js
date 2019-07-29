@@ -5,51 +5,49 @@ var defaultConfig = {
   deathRange: 5
 };
 
-module.exports = function(config, data){
-
+module.exports = function(config, data) {
   config = utils.defaults(config, defaultConfig);
 
-  var url = 'https://www.genealogieonline.nl/en/zoeken/?publication=0';	// defaults to English version of website    
+  var url = 'https://www.genealogieonline.nl/en/zoeken/?publication=0'; // defaults to English version of website
   var query = '';
 
-  if(data.givenName) {
+  if (data.givenName) {
     query = utils.addQueryParam(query, 'q', data.familyName);
   }
 
-  if(data.familyName) {
+  if (data.familyName) {
     query = utils.addQueryParam(query, 'vn', data.givenName);
   }
 
-  if(data.spouseFamilyName) {
+  if (data.spouseFamilyName) {
     query = utils.addQueryParam(query, 'pa', data.spouseFamilyName);
   }
 
-  var place='';
+  var place = '';
   if (data.birthPlace) {
-  	place=data.birthPlace;
+    place = data.birthPlace;
   } else {
-  	if (data.deathPlace) {
-  		place=data.deathPlace;
-  	} else {
-  		if (data.marriagePlace) {
-  			place=data.marriagePlace;
-  		}
-  	}
+    if (data.deathPlace) {
+      place = data.deathPlace;
+    } else {
+      if (data.marriagePlace) {
+        place = data.marriagePlace;
+      }
+    }
   }
   if (place) {
     query = utils.addQueryParam(query, 'pn', place);
   }
-  
-  if(data.birthDate) {
-    query = utils.addQueryParam(query, 'gv', utils.getYear(data.birthDate)*1-config.birthRange);
-    query = utils.addQueryParam(query, 'gt', utils.getYear(data.birthDate)*1+config.birthRange);
+
+  if (data.birthDate) {
+    query = utils.addQueryParam(query, 'gv', utils.getYear(data.birthDate) * 1 - config.birthRange);
+    query = utils.addQueryParam(query, 'gt', utils.getYear(data.birthDate) * 1 + config.birthRange);
   }
 
-  if(data.deathDate) {
-    query = utils.addQueryParam(query, 'ov', utils.getYear(data.deathDate)*1-config.deathRange);
-    query = utils.addQueryParam(query, 'ot', utils.getYear(data.deathDate)*1+config.deathRange);
+  if (data.deathDate) {
+    query = utils.addQueryParam(query, 'ov', utils.getYear(data.deathDate) * 1 - config.deathRange);
+    query = utils.addQueryParam(query, 'ot', utils.getYear(data.deathDate) * 1 + config.deathRange);
   }
 
   return url + query;
-
 };

@@ -5,13 +5,12 @@ var defaultConfig = {
   deathRange: 2
 };
 
-module.exports = function(config, data){
-
+module.exports = function(config, data) {
   config = utils.defaults(config, defaultConfig);
 
   var baseUrl = 'http://www.werelate.org/wiki/Special:Search?sort=score&ns=Person&rows=20&ecp=p';
   var query = '';
-  
+
   // Simple mappings from the person data object to params
   // These don't need any further processing
   var mappings = [
@@ -25,23 +24,22 @@ module.exports = function(config, data){
     ['ms', 'motherFamilyName'],
     ['sg', 'spouseGivenName'],
     ['ss', 'spouseFamilyName']
-  ];    
+  ];
   utils.each(mappings, function(map) {
-    if(data[map[1]]) {
+    if (data[map[1]]) {
       query = utils.addQueryParam(query, map[0], data[map[1]]);
     }
   });
-  
+
   // Process dates and add the ranges
-  if(data.birthDate) {
+  if (data.birthDate) {
     query = utils.addQueryParam(query, 'bd', utils.getYear(data.birthDate));
     query = utils.addQueryParam(query, 'br', config.birthRange);
   }
-  if(data.deathDate) {
+  if (data.deathDate) {
     query = utils.addQueryParam(query, 'dd', utils.getYear(data.deathDate));
     query = utils.addQueryParam(query, 'dr', config.deathRange);
   }
-  
-  return baseUrl + query;
 
+  return baseUrl + query;
 };

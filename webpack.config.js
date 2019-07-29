@@ -1,8 +1,7 @@
 var bannerjs = require('bannerjs'),
-    webpack = require('webpack');
+  webpack = require('webpack');
 
 module.exports = function(env) {
-  
   var config = {
     context: __dirname,
     entry: './src/search.js',
@@ -19,12 +18,12 @@ module.exports = function(env) {
       })
     ]
   };
-  
+
   // Minify for production build
-  if(env && env.production){
+  if (env && env.production) {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin());
     config.output.filename = 'gensearch.min.js';
   }
-  
+
   return config;
 };

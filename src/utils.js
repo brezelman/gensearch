@@ -7,22 +7,22 @@ var utils = {};
  * of that year in GMT then convert it to the current
  * timezone which could be the previous year.
  */
-utils.getYear = function(date){
+utils.getYear = function(date) {
   return /^\d{4}$/.test(date) ? date : new Date(date).getFullYear();
 };
 
 /**
  * Extract the year from a date and return as an integer.
  */
-utils.getYearInt = function(date){
+utils.getYearInt = function(date) {
   return parseInt(utils.getYear(date));
 };
 
 /**
  * Add a query param to a url
  */
-utils.addQueryParam = function(query, name, value){
-  if(value){
+utils.addQueryParam = function(query, name, value) {
+  if (value) {
     query += '&' + name + '=' + encodeURIComponent(value);
   }
   return query;
@@ -33,9 +33,9 @@ utils.addQueryParam = function(query, name, value){
  * and return an encoded query string
  * without the leading '?'
  */
-utils.queryString = function(params){
+utils.queryString = function(params) {
   var parts = [];
-  utils.each(params, function(val, key){
+  utils.each(params, function(val, key) {
     parts.push(key + '=' + encodeURIComponent(val));
   });
   return parts.join('&');
@@ -45,19 +45,18 @@ utils.queryString = function(params){
  * Functions lifted from underscore.js
  * http://underscorejs.org/
  */
- 
 utils.isObject = function(obj) {
   return obj === Object(obj);
 };
 
-utils.isString = function(obj){
+utils.isString = function(obj) {
   return toString.call(obj) == '[object String]';
 };
 
-utils.isUndefined = function(obj){
+utils.isUndefined = function(obj) {
   return obj === void 0;
 };
- 
+
 utils.each = function(obj, iterator, context) {
   if (obj == null) return obj;
   if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
@@ -82,7 +81,7 @@ utils.keys = function(obj) {
   for (var key in obj) if (hasOwnProperty.call(obj, key)) keys.push(key);
   return keys;
 };
- 
+
 utils.defaults = function(obj) {
   utils.each(Array.prototype.slice.call(arguments, 1), function(source) {
     if (source) {
