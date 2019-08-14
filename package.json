@@ -9,12 +9,11 @@
   "bugs": "https://github.com/genealogysystems/gen-search/issues",
   "main": "src/search.js",
   "scripts": {
-    "test": "mocha --recursive",
+    "test": "nyc mocha --recursive",
     "build": "npm run build:dev && npm run build:min",
     "build:dev": "webpack",
     "build:min": "webpack --env.production",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --recursive",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --recursive && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "prepublish": "npm test && npm run build"
   },
   "files": [
@@ -28,9 +27,9 @@
   "license": "MIT",
   "devDependencies": {
     "bannerjs": "^1.0.5",
-    "coveralls": "2.11.2",
-    "istanbul": "0.3.8",
-    "mocha": "2.2.1",
+    "coveralls": "^3.0.6",
+    "nyc": "^14.1.1",
+    "mocha": "^6.2.0",
     "webpack": "^2.3.3"
   }
 }
